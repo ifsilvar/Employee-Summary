@@ -5,6 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 const jest = require("jest");
+const Employee = require("./lib/Employee")
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -55,10 +56,95 @@ function mainMenu(){
             teams.push(team)
             mainMenu();
         })
-    }
+        }
+        if(data.choice === 'Engineer'){
+            if(teams.length === 0){
+                console.log("Please open an account first.")
+                return mainMenu();
+            }
+            inquirer.prompt(
+                [
+                // {
+                //     message: "Which manager would you like to join?",
+                //     type: "list",
+                //     name: "select",
+                //     choices: teams.map((team, i) => ({name: team.name, value: i}))
+                // },
+                {
+                    message: "What is your name?",
+                    type: "input",
+                    name: "name",
+                },
+                {
+                    message: "What is your id number",
+                    type: "number",
+                    name: "idNumber",
+                },
+                {
+                    message: "What is your email",
+                    type: "input",
+                    name: "email",
+                },
+                {
+                    message: "What is your git username",
+                    type: "input",
+                    name: "gitHub",
+                }
+            ]
+            )
+            .then(data => {
+                const team = new Employee(data.name, data.idNumber, data.email, data.gitHub);
+                console.log("Your Engineer account has been created \n", team)
+                teams.push(team)
+                mainMenu();
+            })
+        }
+        if(data.choice === 'Intern'){
+            if(teams.length === 0){
+                console.log("Please open an account first.")
+                return mainMenu();
+            }
+            inquirer.prompt(
+                [
+                // {
+                //     message: "Which manager would you like to join?",
+                //     type: "list",
+                //     name: "select",
+                //     choices: teams.map((team, i) => ({name: team.name, value: i}))
+                // },
+                {
+                    message: "What is your name?",
+                    type: "input",
+                    name: "name",
+                },
+                {
+                    message: "What is your id number",
+                    type: "number",
+                    name: "idNumber",
+                },
+                {
+                    message: "What is your email",
+                    type: "input",
+                    name: "email",
+                },
+                {
+                    message: "What is your school's name?",
+                    type: "input",
+                    name: "schoolName",
+                }
+            ]
+            )
+            .then(data => {
+                const team = new Employee(data.name, data.idNumber, data.email, data.schoolName);
+                console.log("Your Engineer account has been created \n", team)
+                teams.push(team)
+                mainMenu();
+            })
+        }
+    })
 }
 
-
+mainMenu();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
